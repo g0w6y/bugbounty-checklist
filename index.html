@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bug Bounty Field Checklist</title>
+  <meta name="description" content="A professional, in depth bug bounty checklist for Web, API, and Open Source code targets." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar_inner">
+      <div class="brand">
+        <span class="brand_mark">BB</span>
+        <div class="brand_text">
+          <span class="brand_title">Bug Bounty Field Checklist</span>
+          <span class="brand_sub">Web, API, and Open Source targets</span>
+        </div>
+      </div>
+      <div class="topbar_actions">
+        <input id="search" class="search" type="search" placeholder="Filter checklist items" aria-label="Filter checklist items" />
+        <button id="resetBtn" class="btn" type="button">Reset progress</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs wrap" id="tabs" role="tablist"></nav>
+
+  <main class="wrap content">
+    <section class="overview" id="overview"></section>
+    <div class="progress_wrap">
+      <div class="progress_meta">
+        <span id="progressLabel">Progress</span>
+        <span id="progressCount">0 of 0</span>
+      </div>
+      <div class="progress_track"><div class="progress_fill" id="progressFill"></div></div>
+    </div>
+    <div id="phases" class="phases"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p>A practitioner checklist for authorised security testing only. Stay in scope and disclose responsibly.</p>
+    </div>
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
