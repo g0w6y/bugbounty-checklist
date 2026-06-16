@@ -246,7 +246,8 @@ body {
   flex-direction: column;
   align-items: center;
 }
-.ring { width: 150px; height: 150px; transform: rotate(-90deg); }
+.ring_wrap { position: relative; width: 150px; height: 150px; flex-shrink: 0; }
+.ring { width: 100%; height: 100%; transform: rotate(-90deg); display: block; }
 .ring_bg { fill: none; stroke: rgba(140,162,200,0.12); stroke-width: 8; }
 .ring_fg {
   fill: none;
@@ -260,10 +261,11 @@ body {
 }
 .ring_label {
   position: absolute;
-  top: 58px;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 .ring_pct { font-family: var(--mono); font-size: 2.1rem; font-weight: 700; line-height: 1; }
 .ring_unit { font-size: 0.66rem; color: var(--faint); letter-spacing: 1px; }
@@ -415,22 +417,71 @@ body {
 }
 .footer_tag { font-family: var(--mono); letter-spacing: 1px; }
 
-/* Responsive */
-@media (max-width: 940px) {
-  .hero_inner { grid-template-columns: 1fr; gap: 28px; }
-  .layout { grid-template-columns: 1fr; }
-  .side_sticky { position: static; flex-direction: row; flex-wrap: wrap; align-items: stretch; }
+/* ===== Responsive ===== */
+
+/* Tablet and below: collapse to one column, sidebar becomes a compact top panel */
+@media (max-width: 980px) {
+  .hero_inner { grid-template-columns: 1fr; gap: 26px; }
+  .hero_desc { max-width: none; }
+  .hero_stats { max-width: 460px; }
+
+  .layout { grid-template-columns: 1fr; gap: 18px; }
+  .side_sticky {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+  }
   .track { flex: 1 1 100%; }
-  .ring_card { flex: 1; }
-  .phasenav { flex: 2 1 320px; max-height: none; }
+  .ring_card {
+    flex: 1 1 auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 16px 22px;
+  }
+  .ring_wrap { width: 92px; height: 92px; }
+  .ring_pct { font-size: 1.6rem; }
+  .ring_meta { margin-top: 0; }
+  .phasenav { display: none; }
 }
-@media (max-width: 600px) {
+
+/* Large phone and small tablet portrait */
+@media (max-width: 680px) {
   .shell { padding: 0 18px; }
-  .cmdbar_inner { padding: 12px 18px; }
+  .cmdbar_inner { padding: 12px 18px; gap: 12px; }
   .cmd_actions { width: 100%; }
-  .search { flex: 1; min-width: 0; }
   .search_box { flex: 1; }
-  .hero { padding: 36px 0 20px; }
-  .brand_sub { display: none; }
+  .search { flex: 1; min-width: 0; width: 100%; }
+  .hero { padding: 34px 0 18px; }
   .phase_ghost { display: none; }
+  .phase_bar { display: none; }
+  .phase_head { padding: 15px 16px; }
+  .phase_left { gap: 10px; }
+  .phase_title { font-size: 0.96rem; }
+  .item { padding: 14px 16px; gap: 13px; }
+  .overview { padding: 16px 18px; }
+}
+
+/* Compact phones */
+@media (max-width: 460px) {
+  .brand_sub { display: none; }
+  .hero_title { font-size: 1.85rem; }
+  .hero_stats { gap: 8px; }
+  .stat { padding: 14px 8px; border-radius: 13px; }
+  .stat_num { font-size: 1.5rem; }
+  .stat_lbl { font-size: 0.66rem; }
+  .ring_card { flex-direction: column; gap: 12px; padding: 18px; }
+  .phase_chip { font-size: 0.66rem; padding: 4px 8px; }
+  .phase_title { font-size: 0.9rem; }
+  .item_title { font-size: 0.92rem; }
+  .item_detail { font-size: 0.84rem; }
+  .footer_inner { padding: 20px 18px; }
+}
+
+/* Touch devices: remove hover only affordances that can stick */
+@media (hover: none) {
+  .item:hover, .phase_head:hover, .pnav_item:hover { background: transparent; }
 }
