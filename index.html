@@ -3,47 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bug Bounty Field Checklist</title>
-  <meta name="description" content="A professional, in depth bug bounty checklist for Web, API, and Open Source code targets." />
+  <title>Recon Console — Bug Bounty Field Checklist</title>
+  <meta name="description" content="A professional recon console and in depth bug bounty checklist for Web, API, and Open Source code targets." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="wrap topbar_inner">
+  <div class="bg" aria-hidden="true">
+    <div class="bg_grid"></div>
+    <div class="orb orb_a"></div>
+    <div class="orb orb_b"></div>
+    <div class="orb orb_c"></div>
+    <div class="scan"></div>
+  </div>
+
+  <header class="cmdbar">
+    <div class="shell cmdbar_inner">
       <div class="brand">
-        <span class="brand_mark">BB</span>
+        <span class="brand_mark"><span class="brand_dot"></span>RC</span>
         <div class="brand_text">
-          <span class="brand_title">Bug Bounty Field Checklist</span>
-          <span class="brand_sub">Web, API, and Open Source targets</span>
+          <span class="brand_title">Recon Console</span>
+          <span class="brand_sub">Bug bounty field checklist</span>
         </div>
       </div>
-      <div class="topbar_actions">
-        <input id="search" class="search" type="search" placeholder="Filter checklist items" aria-label="Filter checklist items" />
-        <button id="resetBtn" class="btn" type="button">Reset progress</button>
+      <div class="cmd_actions">
+        <div class="search_box">
+          <span class="search_icon" aria-hidden="true">/</span>
+          <input id="search" class="search" type="search" placeholder="Filter checks  (press slash)" aria-label="Filter checklist items" />
+        </div>
+        <button id="resetBtn" class="btn" type="button">Reset</button>
       </div>
     </div>
   </header>
 
-  <nav class="tabs wrap" id="tabs" role="tablist"></nav>
-
-  <main class="wrap content">
-    <section class="overview" id="overview"></section>
-    <div class="progress_wrap">
-      <div class="progress_meta">
-        <span id="progressLabel">Progress</span>
-        <span id="progressCount">0 of 0</span>
+  <section class="hero">
+    <div class="shell hero_inner">
+      <div class="hero_lead">
+        <span class="kicker">Authorised testing playbook</span>
+        <h1 class="hero_title">A precise checklist for the targets that pay.</h1>
+        <p class="hero_desc">Three full methodologies, phase by phase. Track every check, filter instantly, and never skip recon. Built for Web, API, and Open Source code reviews.</p>
       </div>
-      <div class="progress_track"><div class="progress_fill" id="progressFill"></div></div>
+      <div class="hero_stats" id="heroStats"></div>
     </div>
-    <div id="phases" class="phases"></div>
+  </section>
+
+  <main class="shell layout">
+    <aside class="side" id="side">
+      <div class="side_sticky">
+        <div class="track" id="track" role="tablist" aria-label="Target track"></div>
+
+        <div class="ring_card">
+          <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ring_bg" cx="60" cy="60" r="52" />
+            <circle class="ring_fg" id="ringFg" cx="60" cy="60" r="52" />
+          </svg>
+          <div class="ring_label">
+            <span class="ring_pct" id="ringPct">0</span>
+            <span class="ring_unit">percent</span>
+          </div>
+          <div class="ring_meta" id="ringMeta">0 of 0 checks</div>
+        </div>
+
+        <nav class="phasenav" id="phaseNav" aria-label="Phases"></nav>
+      </div>
+    </aside>
+
+    <div class="main">
+      <div class="overview" id="overview"></div>
+      <div id="phases" class="phases"></div>
+    </div>
   </main>
 
   <footer class="footer">
-    <div class="wrap">
-      <p>A practitioner checklist for authorised security testing only. Stay in scope and disclose responsibly.</p>
+    <div class="shell footer_inner">
+      <span>For authorised security testing only. Stay in scope and disclose responsibly.</span>
+      <span class="footer_tag">Recon Console</span>
     </div>
   </footer>
 
