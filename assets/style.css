@@ -360,7 +360,7 @@ body {
   color: var(--accent);
   white-space: nowrap;
 }
-.phase_title { font-weight: 600; font-size: 1.0rem; letter-spacing: -0.01em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.phase_title { font-weight: 600; font-size: 1.0rem; letter-spacing: -0.01em; }
 .phase_right { display: flex; align-items: center; gap: 14px; }
 .phase_bar { width: 64px; height: 4px; border-radius: 999px; background: var(--line-2); overflow: hidden; }
 .phase_bar_fill { height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -407,7 +407,7 @@ body {
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
-.item_body { flex: 1; min-width: 0; }
+.item_body { flex: 1; min-width: 0; overflow-wrap: break-word; }
 .item_title { font-weight: 500; font-size: 0.94rem; letter-spacing: -0.005em; }
 .item_detail { color: var(--muted); font-size: 0.85rem; margin-top: 4px; line-height: 1.55; }
 .item.done .item_title { color: var(--faint); text-decoration: line-through; text-decoration-color: var(--line-2); }
@@ -468,6 +468,7 @@ body {
 
 @media (max-width: 460px) {
   .brand_sub { display: none; }
+  .track_btn { font-size: 0.72rem; padding: 9px 3px; }
   .hero_title { font-size: 1.9rem; }
   .hero_stats { gap: 8px; }
   .stat { padding: 14px 8px; }
