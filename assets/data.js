@@ -48,7 +48,8 @@ window.CHECKLIST = {
           { t: "Parse robots, sitemap, and security txt", d: "These name paths the owner did not want indexed and disclosure contacts." },
           { t: "Extract endpoints from JavaScript", d: "Pull API routes, paths, and parameters referenced in client bundles." },
           { t: "Map every HTTP method", d: "Test GET, POST, PUT, DELETE, PATCH, OPTIONS per endpoint. Method override may bypass checks." },
-          { t: "Find old API versions", d: "v1 and legacy routes may lack fixes present in current versions." }
+          { t: "Find old API versions", d: "v1 and legacy routes may lack fixes present in current versions." },
+          { t: "GraphQL endpoint discovery", d: "Probe /graphql, /graphiql, and similar. If present, switch to the GraphQL checks in the API methodology for introspection, depth, and resolver authorisation." }
         ]
       },
       {
@@ -61,7 +62,9 @@ window.CHECKLIST = {
           { t: "Inspect postMessage handlers", d: "Missing origin checks lead to DOM XSS and data theft across frames." },
           { t: "Trace DOM sinks", d: "innerHTML, document.write, eval, location assignment fed by user input cause DOM XSS." },
           { t: "Audit dependency versions", d: "Map front end library versions to known client side vulnerabilities." },
-          { t: "Check source map and debug leftovers", d: "Comments, TODOs, internal hostnames, and test credentials hidden in bundles." }
+          { t: "Check source map and debug leftovers", d: "Comments, TODOs, internal hostnames, and test credentials hidden in bundles." },
+          { t: "Prototype pollution", d: "Polluting Object.prototype via __proto__ or constructor through JSON, query input, and unsafe merge or clone. Client side gadgets give DOM XSS; server side gives logic bypass and RCE." },
+          { t: "Subresource integrity", d: "Third party scripts and styles loaded without integrity hashes. A swapped or compromised CDN asset then runs in the app origin." }
         ]
       },
       {
@@ -76,7 +79,8 @@ window.CHECKLIST = {
           { t: "Default and weak credentials", d: "Vendor defaults and obvious combinations on admin and infra panels." },
           { t: "Login over insecure channel", d: "Credentials posted without TLS or mixed content on the login page." },
           { t: "Verbose authentication errors", d: "Stack traces and detailed messages that disclose internal logic." },
-          { t: "Remember me and persistent tokens", d: "Long lived tokens that are guessable, not revoked on logout, or stored insecurely." }
+          { t: "Remember me and persistent tokens", d: "Long lived tokens that are guessable, not revoked on logout, or stored insecurely." },
+          { t: "SAML assertion flaws", d: "XML signature wrapping, unsigned or signature stripped assertions accepted, audience and recipient not validated, and assertion replay across sessions." }
         ]
       },
       {
@@ -115,7 +119,10 @@ window.CHECKLIST = {
           { t: "XML external entity", d: "XML parsers that resolve external entities enabling file read and SSRF." },
           { t: "LDAP and other interpreter injection", d: "Filters and lookups built from unsanitised input." },
           { t: "Header and host injection", d: "Host, Referer, and forwarded headers reflected into links, caches, or logic." },
-          { t: "CRLF and response splitting", d: "Newline injection into headers enabling cache poisoning and header forgery." }
+          { t: "CRLF and response splitting", d: "Newline injection into headers enabling cache poisoning and header forgery." },
+          { t: "Insecure deserialisation", d: "Native deserialisers on attacker controlled data, including Java, .NET ViewState, PHP unserialize, Python pickle, and Ruby Marshal, leading to gadget chains and RCE." },
+          { t: "HTTP parameter pollution", d: "Duplicate or array parameters across query, body, and path that change server side logic or bypass validation and WAF rules." },
+          { t: "CSV and formula injection", d: "Exported spreadsheets that execute formula payloads beginning with =, +, -, or @ when opened, enabling command execution on the victim host." }
         ]
       },
       {
@@ -144,7 +151,7 @@ window.CHECKLIST = {
           { t: "Price and quantity tampering", d: "Negative values, currency switches, and rounding abuse in cart and checkout." },
           { t: "Coupon and reward abuse", d: "Stacking, reuse, and replay of single use discounts." },
           { t: "Workflow state bypass", d: "Reaching a final state without payment, approval, or verification." },
-          { t: "Race conditions", d: "Concurrent requests that double spend, double redeem, or bypass single use limits." },
+          { t: "Race conditions", d: "Concurrent requests that double spend, double redeem, or bypass single use limits. Use the single packet technique to land requests in the same tight window." },
           { t: "Quantity and limit bypass", d: "Exceeding per user caps through parallel or replayed requests." },
           { t: "Replay of signed or one time actions", d: "Reusing tokens, nonces, or receipts intended for a single use." }
         ]
@@ -155,11 +162,19 @@ window.CHECKLIST = {
           { t: "CSRF on state changing actions", d: "Missing or predictable anti CSRF tokens on sensitive POST and state changes." },
           { t: "CORS misconfiguration", d: "Reflected origin with credentials, null origin trust, or overly broad allow lists." },
           { t: "Clickjacking", d: "Sensitive actions framable due to missing frame ancestors protection." },
-          { t: "Open redirect", d: "Unvalidated redirect parameters usable for phishing and token theft chains." }
+          { t: "Open redirect", d: "Unvalidated redirect parameters usable for phishing and token theft chains." },
+          { t: "WebSocket security", d: "Cross site WebSocket hijacking from missing origin checks on the handshake, missing authentication, and injection inside messages." }
         ]
       },
       {
-        name: "Phase 14. Configuration and Disclosure",
+        name: "Phase 14. HTTP Protocol and Smuggling",
+        items: [
+          { t: "HTTP request smuggling", d: "Front end and back end disagreement on request boundaries: CL.TE, TE.CL, TE.TE, CL.0, and H2 downgrade desync. Chain to cache poisoning, request hijack, and auth bypass." },
+          { t: "Client side desync", d: "Browser powered desync where the victim browser is coerced into smuggling a request. Confirm with response timing and a controlled gadget." }
+        ]
+      },
+      {
+        name: "Phase 15. Configuration and Disclosure",
         items: [
           { t: "Security headers", d: "Content security policy, frame ancestors, HSTS, and referrer policy presence and quality." },
           { t: "Exposed sensitive files", d: "git directories, env files, backups, configs, and debug consoles reachable over HTTP." },
@@ -168,11 +183,12 @@ window.CHECKLIST = {
           { t: "Default and sample pages", d: "Server welcome pages, sample apps, and admin consoles left installed." },
           { t: "Sensitive data in transit and at rest", d: "Tokens in URLs, PII in responses, and secrets in caches and logs." },
           { t: "Subdomain takeover", d: "Dangling DNS records pointing to unclaimed third party services." },
-          { t: "Cache poisoning and deception", d: "Unkeyed inputs that poison shared caches or trick caching of private pages." }
+          { t: "Cache poisoning and deception", d: "Unkeyed inputs that poison shared caches or trick caching of private pages." },
+          { t: "Email spoofing controls", d: "Missing or weak SPF, DKIM, and DMARC on sending domains allow spoofed mail and phishing as the brand." }
         ]
       },
       {
-        name: "Phase 15. Validation and Reporting",
+        name: "Phase 16. Validation and Reporting",
         items: [
           { t: "Reproduce reliably", d: "Confirm the issue from a clean session with clear, minimal steps." },
           { t: "Assess real impact", d: "Tie the finding to concrete business and user harm, not theory." },
