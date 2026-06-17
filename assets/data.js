@@ -115,6 +115,7 @@ window.CHECKLIST = {
           { t: "SQL injection", d: "Error based, boolean and time blind, and second order in every parameter and header." },
           { t: "NoSQL injection", d: "Operator injection in JSON queries and authentication bypass on document stores." },
           { t: "Command injection", d: "User input reaching shell calls, file utilities, or system commands." },
+          { t: "Path traversal and local file inclusion", d: "Parameters such as ?file= and ?page= that escape the web root with ../ sequences and encodings to read arbitrary files; PHP wrappers and log poisoning can escalate to code execution." },
           { t: "Server side template injection", d: "Template expressions evaluated server side leading to data leak or code execution." },
           { t: "XML external entity", d: "XML parsers that resolve external entities enabling file read and SSRF." },
           { t: "LDAP and other interpreter injection", d: "Filters and lookups built from unsanitised input." },
