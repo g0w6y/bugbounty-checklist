@@ -157,7 +157,7 @@
         '<span class="phase_right">' +
           '<span class="phase_bar"><span class="phase_bar_fill" style="width:' + pct + '%"></span></span>' +
           '<span class="phase_badge">' + c.done + " / " + c.total + '</span>' +
-          '<span class="phase_chevron">v</span>' +
+          '<span class="phase_chevron"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>' +
         '</span>';
       head.addEventListener("click", function () {
         var k = "_c:" + current + ":" + pi;
