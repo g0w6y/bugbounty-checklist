@@ -365,6 +365,7 @@ window.CHECKLIST = {
           { t: "Command execution", d: "User input reaching shell or process execution without strict validation." },
           { t: "Path traversal", d: "File paths built from input that escape the intended directory." },
           { t: "Template and expression evaluation", d: "User data into template engines or dynamic evaluation." },
+          { t: "XML external entity", d: "Parsers that resolve external entities and DTDs, enabling file read, SSRF, and denial of service; defaults differ per language XML library." },
           { t: "Deserialisation of untrusted data", d: "Native deserialisers on attacker controlled input enabling code execution." },
           { t: "Cross site scripting in rendering", d: "Server rendered output without context aware encoding." }
         ]
@@ -378,17 +379,7 @@ window.CHECKLIST = {
         ]
       },
       {
-        name: "Phase 7. Memory and Native Safety",
-        items: [
-          { t: "Buffer handling in native code", d: "Bounds on copies, array indexing, and length calculations in C and C++." },
-          { t: "Integer overflow and underflow", d: "Arithmetic on sizes and counts that wraps and breaks allocation logic." },
-          { t: "Use after free and double free", d: "Lifetime and ownership errors in manual memory management." },
-          { t: "Format string handling", d: "User input used directly as a format specifier." },
-          { t: "Unsafe blocks in safe languages", d: "Explicit unsafe regions that bypass the language safety guarantees." }
-        ]
-      },
-      {
-        name: "Phase 8. Access Control and Logic",
+        name: "Phase 7. Access Control and Logic",
         items: [
           { t: "Authorisation checks at sinks", d: "Permission verified at the action, not only at the route or menu." },
           { t: "Insecure direct object references", d: "Identifiers from input used to fetch resources without ownership checks." },
@@ -397,7 +388,7 @@ window.CHECKLIST = {
         ]
       },
       {
-        name: "Phase 9. Files, Resources, and Errors",
+        name: "Phase 8. Files, Resources, and Errors",
         items: [
           { t: "File permission and creation", d: "World readable or writable files and predictable temporary file names." },
           { t: "Archive and decompression handling", d: "Zip slip path escape and decompression bombs on untrusted archives." },
@@ -407,7 +398,121 @@ window.CHECKLIST = {
         ]
       },
       {
-        name: "Phase 10. Verification and Disclosure",
+        name: "Phase 9. C and C++",
+        items: [
+          { t: "Unsafe string and buffer functions", d: "strcpy, strcat, sprintf, gets, and scanf %s, plus memcpy with an attacker controlled length, overflow the destination." },
+          { t: "Integer overflow and signedness", d: "Arithmetic on sizes and counts that wraps or flips sign before malloc or array indexing." },
+          { t: "Out of bounds read and write", d: "Off by one and missing bounds on pointer and array access; out of bounds reads also leak memory." },
+          { t: "Use after free and double free", d: "Dangling pointers, freeing twice on error paths, and reuse after free in manual memory management." },
+          { t: "Format string", d: "printf, fprintf, and syslog called with user input as the format argument." },
+          { t: "Uninitialised memory disclosure", d: "Structs and buffers copied to output or the network without zeroing leak stack and heap data." },
+          { t: "TOCTOU and symlink races", d: "access then open patterns, predictable temp file names, and following symlinks into privileged paths." },
+          { t: "Unchecked allocation and returns", d: "malloc, realloc, and system call results used without checking for failure." }
+        ]
+      },
+      {
+        name: "Phase 10. Python",
+        items: [
+          { t: "Unsafe deserialisation", d: "pickle, cPickle, marshal, shelve, and jsonpickle on untrusted data execute arbitrary code." },
+          { t: "yaml.load without SafeLoader", d: "The full loader instantiates arbitrary Python objects; require yaml.safe_load." },
+          { t: "eval, exec, and compile", d: "Dynamic evaluation of attacker influenced strings reaches code execution." },
+          { t: "subprocess with shell=True", d: "shell=True, os.system, and os.popen pass shell metacharacters; prefer argument lists." },
+          { t: "Jinja2 template injection", d: "render_template_string and Template().render on user input evaluate expressions to RCE." },
+          { t: "XML without defusedxml", d: "xml.etree, lxml, xml.sax, and xmlrpc resolve external entities; use the defusedxml package." },
+          { t: "assert for security checks", d: "Assertions are removed under python -O, disabling the guard in optimised builds." },
+          { t: "Archive extraction path escape", d: "tarfile.extractall and zipfile without validating member paths allow zip slip writes." }
+        ]
+      },
+      {
+        name: "Phase 11. JavaScript and Node.js",
+        items: [
+          { t: "Prototype pollution", d: "Unsafe deep merge, extend, and clone with __proto__ or constructor.prototype keys; gadgets reach RCE or auth bypass." },
+          { t: "eval, Function, and vm", d: "Dynamic code and weak sandboxes; vm and vm2 escapes lead to host code execution." },
+          { t: "child_process.exec", d: "exec and execSync interpolate a shell string; prefer execFile or spawn with argument arrays." },
+          { t: "Dynamic require and import", d: "Module paths built from input load local files and execute attacker chosen code." },
+          { t: "Insecure deserialisation libraries", d: "node-serialize, serialize-to-js, and funcster evaluate embedded functions on parse." },
+          { t: "Regular expression denial of service", d: "Catastrophic backtracking on user input freezes the event loop (ReDoS)." },
+          { t: "NoSQL operator injection", d: "Unsanitised objects reaching Mongo $where, $regex, and query operators." },
+          { t: "Open redirect and SSRF", d: "res.redirect from request input, and server side fetch or axios on user supplied URLs." }
+        ]
+      },
+      {
+        name: "Phase 12. Java and the JVM",
+        items: [
+          { t: "Native deserialisation", d: "ObjectInputStream.readObject on untrusted bytes with gadget chains on the classpath (ysoserial)." },
+          { t: "JNDI injection", d: "InitialContext.lookup and logging that resolves the jndi lookup syntax (Log4Shell) to RMI or LDAP." },
+          { t: "Expression language injection", d: "SpEL, OGNL in Struts, MVEL, and JSP or JSF EL evaluating attacker input." },
+          { t: "XXE in XML factories", d: "DocumentBuilderFactory, SAXParser, XMLInputFactory, and Transformer left with external entities enabled." },
+          { t: "Polymorphic data binding", d: "Jackson default typing, XStream, and SnakeYAML instantiate arbitrary types from input." },
+          { t: "Reflection and class loading", d: "Class.forName, URLClassLoader, and ScriptEngine driven by user controlled names." },
+          { t: "Command execution", d: "Runtime.exec and ProcessBuilder built from concatenated arguments." },
+          { t: "Spring exposure", d: "Open Actuator endpoints, SpEL in @Value, and unrestricted autobinding causing mass assignment." }
+        ]
+      },
+      {
+        name: "Phase 13. Go",
+        items: [
+          { t: "text/template for HTML", d: "Using text/template instead of html/template skips contextual escaping and yields XSS." },
+          { t: "Command execution via shell", d: "exec.Command spawning sh -c or bash -c with interpolated input." },
+          { t: "Path traversal in file serving", d: "filepath.Join and http.ServeFile without filepath.Clean and root containment." },
+          { t: "Weak randomness", d: "math/rand used for tokens, identifiers, or keys instead of crypto/rand." },
+          { t: "Disabled TLS verification", d: "tls.Config with InsecureSkipVerify set true in production clients." },
+          { t: "Archive extraction path escape", d: "archive/zip and tar without sanitising member paths allow zip slip." },
+          { t: "Data races on shared state", d: "Maps and counters shared across goroutines without synchronisation; confirm with the race detector." },
+          { t: "Unchecked assertions and errors", d: "Type assertions that panic and ignored error returns that mask failure open logic." }
+        ]
+      },
+      {
+        name: "Phase 14. PHP",
+        items: [
+          { t: "Object injection via unserialize", d: "unserialize on untrusted input with POP gadget chains, including phar triggered deserialisation." },
+          { t: "File inclusion", d: "include and require with user paths (LFI and RFI), allow_url_include, and php filter or data wrappers." },
+          { t: "Dynamic code evaluation", d: "eval, assert, create_function, and preg_replace with the e modifier." },
+          { t: "Command execution", d: "system, exec, shell_exec, passthru, backticks, popen, and proc_open." },
+          { t: "Type juggling and magic hashes", d: "Loose comparison and 0e prefixed hashes bypassing authentication and token checks." },
+          { t: "Variable overwrite", d: "extract, parse_str, and import_request_variables clobbering server side variables." },
+          { t: "XXE in XML loaders", d: "simplexml_load, DOMDocument, and libxml with external entity loading enabled." },
+          { t: "Upload and path handling", d: "move_uploaded_file with attacker names and traversal into the web root." }
+        ]
+      },
+      {
+        name: "Phase 15. Ruby",
+        items: [
+          { t: "Unsafe deserialisation", d: "Marshal.load, YAML.load or Psych instead of safe_load, and Oj in object mode on untrusted data." },
+          { t: "Dynamic dispatch", d: "send, public_send, constantize, eval, and instance_eval with attacker controlled names." },
+          { t: "Template injection", d: "ERB, Erubi, and Tilt rendering inline on user templates evaluate embedded Ruby." },
+          { t: "Command execution", d: "Backticks, system, exec, the %x form, and Kernel open or IO.popen with a leading pipe." },
+          { t: "Mass assignment", d: "Parameters bound without strong parameter permit granting unintended attributes." },
+          { t: "SQL in dynamic finders", d: "String interpolation in where, find_by_sql, and order or pluck fragments." },
+          { t: "Regex anchor confusion", d: "Line anchors instead of the string start and end anchors allow newline bypass of validations." }
+        ]
+      },
+      {
+        name: "Phase 16. C# and .NET",
+        items: [
+          { t: "Insecure deserialisation", d: "BinaryFormatter, LosFormatter, ObjectStateFormatter for ViewState, SoapFormatter, and NetDataContractSerializer." },
+          { t: "Polymorphic JSON", d: "Json.NET TypeNameHandling other than None, and JavaScriptSerializer with a type resolver." },
+          { t: "XXE in XML APIs", d: "XmlDocument, XmlTextReader, and XmlSerializer with DTD and entity resolution enabled." },
+          { t: "Command execution", d: "Process.Start with cmd and concatenated arguments." },
+          { t: "ViewState integrity", d: "Missing MAC or encryption and a known or leaked machineKey." },
+          { t: "SQL construction", d: "String built queries instead of parameterised SqlCommand." },
+          { t: "Path and output handling", d: "Path.Combine traversal and Razor Html.Raw output without encoding." }
+        ]
+      },
+      {
+        name: "Phase 17. Rust",
+        items: [
+          { t: "Unsafe blocks", d: "Raw pointer use, transmute, and FFI that void the memory and type guarantees of the language." },
+          { t: "Panic based denial of service", d: "unwrap, expect, panic, and unreachable on attacker reachable paths abort the thread." },
+          { t: "Integer overflow in release", d: "Arithmetic wraps without panic in release builds; use checked or saturating operations on sizes." },
+          { t: "Unchecked slice indexing", d: "Indexing and ranges from input that panic, or in unsafe code read out of bounds." },
+          { t: "Command execution via shell", d: "Command::new spawning sh -c with interpolated input." },
+          { t: "Untrusted deserialisation", d: "serde and bincode over attacker data into types with side effects or unbounded allocation." },
+          { t: "Dependency advisories", d: "Unaudited crates and yanked versions; confirm with cargo audit." }
+        ]
+      },
+      {
+        name: "Phase 18. Verification and Disclosure",
         items: [
           { t: "Build a working proof of concept", d: "Confirm the issue with a minimal trigger on a clean checkout." },
           { t: "Determine version range", d: "Identify which releases and branches are affected." },
